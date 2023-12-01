@@ -20,6 +20,13 @@ public class UserController {
     @Autowired
     UserService service;
 
+    /**
+    * @author: Guilherme Correa
+    * @to-do:
+    * - Implementar o resto do CRUD
+    * - Implementar validações
+    */
+
     @PostMapping
     public ResponseEntity<UserModel> saveUser(@RequestBody @Valid UserRecordDTO userRecordDTO){
         var userModel = new UserModel();
