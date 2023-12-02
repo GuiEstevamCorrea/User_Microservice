@@ -35,4 +35,8 @@ public class UserService {
         return repository.findById(userId);
     }
 
+    @Transactional
+    public void delete(UserModel userModel) {
+        repository.delete(userModel);
+    }
 }
