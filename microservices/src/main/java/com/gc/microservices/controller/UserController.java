@@ -64,4 +64,21 @@ public class UserController {
         service.delete(userModelOptional.get());
         return ResponseEntity.status(HttpStatus.OK).body(userModelOptional.get());
     }
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<Object> updateUser(@PathVariable(value = "userId") UUID userId, @RequestBody @Valid UserRecordDTO userRecordDTO){
+
+        Optional<UserModel> userModelOptional = service.findById(userId);
+
+        if (userModelOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Parking Spot not found");
+        }
+
+        var userModel = userModelOptional.get();
+
+        userModel.setEmail(userRecordDTO.email());
+        userModel.setName(userRecordDTO.name());
+
+        return ResponseEntity.status(HttpStatus.OK).body(service.save(userModel));
+    }
 }
