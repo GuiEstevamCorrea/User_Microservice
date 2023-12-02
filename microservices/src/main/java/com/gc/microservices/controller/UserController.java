@@ -23,9 +23,6 @@ public class UserController {
 
     /**
     * @author: Guilherme Correa
-    * @to-do:
-    * - Implementar o resto do CRUD
-    * - Implementar validações
     */
 
     @PostMapping
