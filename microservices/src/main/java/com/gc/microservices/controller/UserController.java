@@ -8,10 +8,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/users")
@@ -33,5 +34,22 @@ public class UserController {
         BeanUtils.copyProperties(userRecordDTO, userModel);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(userModel));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserModel>> getAllUsers(){
+        List<UserModel> users = this.service.getAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<Object> getOneUser(@PathVariable(value = "userId")UUID userId){
+
+        Optional<UserModel> userModelOptional = service.findById(userId);
+
+        if (!userModelOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not  found!");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(userModelOptional.get());
     }
 }
